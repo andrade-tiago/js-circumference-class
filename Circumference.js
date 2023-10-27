@@ -9,15 +9,13 @@
  * a ela.
  */
 class Circumference {
+	/** Valor da constante Pi utilizado para este objeto. */
 	#PI = Math.PI;
+	/** Raio da circunferência. */
 	#radius = 0;
-	/**
-	 * Coordenada X do centro da circunferência.
-	 */
+	/** Coordenada X do centro da circunferência. */
 	#x = 0;
-	/**
-	 * Coordenada Y do centro da circunferência.
-	 */
+	/** Coordenada Y do centro da circunferência. */
 	#y = 0;
 
 	static #validateNumber(value, valueName) {
@@ -43,7 +41,7 @@ class Circumference {
 	}
 
 	/**
-	 * Define o valor de PI especificando sua precisão.
+	 * Configura o valor da constante Pi especificando sua precisão.
 	 * @param {number} decimalPlaces - O número de casas decimais para PI.
 	 * @param {boolean} [rounding = false] - Se a última casa decimal deve ser
 	 * arredondada.
@@ -91,7 +89,7 @@ class Circumference {
 		this.#radius = value / 2;
 	}
 	get diameter() {
-		return this.#radius * 2;
+		return this.radius * 2;
 	}
 
 	set area(value) {
@@ -100,7 +98,7 @@ class Circumference {
 		if (value < 0) {
 			throw new RangeError('Area cannot be negative');
 		}
-		this.#radius = Math.sqrt(value / this.PI);
+		this.radius = Math.sqrt(value / this.PI);
 	}
 	get area() {
 		return this.PI * this.radius * this.radius;
@@ -112,7 +110,7 @@ class Circumference {
 		if (value < 0) {
 			throw new RangeError('Circumference cannot be negative');
 		}
-		this.#radius = value / 2 / this.PI;
+		this.radius = value / 2 / this.PI;
 	}
 	get circumference() {
 		return 2 * this.PI * this.radius;
@@ -137,11 +135,11 @@ class Circumference {
 	}
 
 	/**
-	 * Calcula a relação de um ponto P(x, y) em relação ao centro da circunferência.
-	 * @param {number} a - Coordenada x do ponto.
-	 * @param {number} b - Coordenada y do ponto.
-	 * @returns {number} - 0 se o ponto pertence à circunferência, -1 se é interno,
-	 * 1 se externo.
+	 * Calcula a relação de um ponto P(X, Y) em relação ao centro da circunferência.
+	 * @param {number} a - Coordenada X do ponto.
+	 * @param {number} b - Coordenada Y do ponto.
+	 * @returns {number} - 0 se o ponto pertence à circunferência, -1 se é interno
+	 * a ela, 1 se externo.
 	 */
 	compareToPoint(pX, pY) {
 		Circumference.#validateNumber(pX, 'pX');
@@ -149,13 +147,16 @@ class Circumference {
 
 		const distanceFromCircumferenceCenter =
 			Math.sqrt(Math.pow(pX - this.x, 2) + Math.pow(pY - this.y, 2));
-		
-		if (distanceFromCircumferenceCenter < this.radius) {
-			return -1;
+
+		switch (true) {
+			case distanceFromCircumferenceCenter < this.radius:
+				return -1;
+			
+			case distanceFromCircumferenceCenter > this.radius:
+				return 1;
+			
+			default:
+				return 0;
 		}
-		if (distanceFromCircumferenceCenter > this.radius) {
-			return 1;
-		}
-		return 0;
 	}
 }
