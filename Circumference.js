@@ -21,14 +21,15 @@ class Circumference {
 	#y = 0;
 
 	static #validateNumber(value, valueName) {
-		if (typeof value !== 'number') {
-			throw new TypeError(`${valueName} must be a number`);
-		}
-		if (Number.isNaN(value)) {
-			throw new RangeError(`${valueName} cannot be NaN`);
-		}
-		if (!Number.isFinite(value)) {
-			throw new RangeError(`${valueName} cannot be Infinity nor -Infinity`);
+		switch (true) {
+			case typeof value !== 'number':
+				throw new TypeError(`${valueName} must be a number`);
+			
+			case Number.isNaN(value):
+				throw new RangeError(`${valueName} cannot be NaN`);
+			
+			case !Number.isFinite(value):
+				throw new RangeError(`${valueName} cannot be Infinity nor -Infinity`);
 		}
 	}
 
