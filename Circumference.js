@@ -33,16 +33,24 @@ class Circle {
 
 	/**
 	 * @param {number | undefined} radius - The radius of the circle.
+	 * @param {number | undefined} centerX - The X-coordinate of the center of the circle.
+	 * @param {number | undefined} centerY - The Y-coordinate of the center of the circle.
 	 */
-	constructor(radius) {
+	constructor(radius, centerX, centerY) {
 		if (typeof radius !== 'undefined') {
 			this.radius = radius;
+		}
+		if (typeof centerX !== 'undefined') {
+			this.centerX = centerX;
+		}
+		if (typeof centerY !== 'undefined') {
+			this.centerY = centerY;
 		}
 	}
 
 	/**
 	 * Set the value of the Pi constant, specifying its precision.
-	 * @param {number} decimalPlaces - The number of decimal places for PI.
+	 * @param {number} decimalPlaces - The number of decimal places for Pi.
 	 * @param {boolean} [round = false] - Whether the last decimal place should be
 	 * rounded.
 	 */
