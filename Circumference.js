@@ -1,22 +1,22 @@
 /**
- * @file Uma classe para representar uma circunferência e realizar cálculos
- * relacionados a ela.
+ * @file A class for representing a circle and performing calculations
+ * related to it.
  * @copyright Tiago Andrade 2023
  */
 
 /**
- * Uma classe para representar uma circunferência e realizar cálculos relacionados
- * a ela.
+ * A class for representing a circle and performing calculations related
+ * to it.
  */
-class Circumference {
-	/** Valor da constante Pi utilizado para este objeto. */
-	#PI = Math.PI;
-	/** Raio da circunferência. */
+class Circle {
+	/** Value of the Pi constant used for this object. */
+	#PI_CONST = Math.PI;
+	/** Radius of the circle. */
 	#radius = 0;
-	/** Coordenada X do centro da circunferência. */
-	#x = 0;
-	/** Coordenada Y do centro da circunferência. */
-	#y = 0;
+	/** X-coordinate of the center of the circle. */
+	#centerX = 0;
+	/** Y-coordinate of the center of the circle. */
+	#centerY = 0;
 
 	static #validateNumber(value, valueName) {
 		switch (true) {
@@ -32,7 +32,7 @@ class Circumference {
 	}
 
 	/**
-	 * @param {number | undefined} radius - O raio da circunferência.
+	 * @param {number | undefined} radius - The radius of the circle.
 	 */
 	constructor(radius) {
 		if (typeof radius !== 'undefined') {
@@ -41,13 +41,13 @@ class Circumference {
 	}
 
 	/**
-	 * Configura o valor da constante Pi especificando sua precisão.
-	 * @param {number} decimalPlaces - O número de casas decimais para PI.
-	 * @param {boolean} [rounding = false] - Se a última casa decimal deve ser
-	 * arredondada.
+	 * Set the value of the Pi constant, specifying its precision.
+	 * @param {number} decimalPlaces - The number of decimal places for PI.
+	 * @param {boolean} [round = false] - Whether the last decimal place should be
+	 * rounded.
 	 */
-	setPI(decimalPlaces, round = false) {
-		Circumference.#validateNumber(decimalPlaces, 'Decimal places');
+	setPiConstPrecision(decimalPlaces, round = false) {
+		Circle.#validateNumber(decimalPlaces, 'Decimal places');
 
 		if (typeof round !== 'boolean') {
 			throw new TypeError('Round must be a boolean');
@@ -62,14 +62,14 @@ class Circumference {
 
 		const factor = 10 ** decimalPlaces;
 		const fixMethod = round ? Math.round : Math.trunc;
-		this.#PI = fixMethod(Math.PI * factor) / factor;
+		this.#PI_CONST = fixMethod(Math.PI * factor) / factor;
 	}
-	get PI() {
-		return this.#PI;
+	get PI_CONST() {
+		return this.#PI_CONST;
 	}
 
 	set radius(value) {
-		Circumference.#validateNumber(value, 'Radius');
+		Circle.#validateNumber(value, 'Radius');
 
 		if (value < 0) {
 			throw new RangeError('Radius cannot be negative');
@@ -81,7 +81,7 @@ class Circumference {
 	}
 
 	set diameter(value) {
-		Circumference.#validateNumber(value, 'Diameter');
+		Circle.#validateNumber(value, 'Diameter');
 
 		if (value < 0) {
 			throw new RangeError('Diameter cannot be negative');
@@ -93,66 +93,66 @@ class Circumference {
 	}
 
 	set area(value) {
-		Circumference.#validateNumber(value, 'Area');
+		Circle.#validateNumber(value, 'Area');
 
 		if (value < 0) {
 			throw new RangeError('Area cannot be negative');
 		}
-		this.radius = Math.sqrt(value / this.PI);
+		this.radius = Math.sqrt(value / this.PI_CONST);
 	}
 	get area() {
-		return this.PI * this.radius * this.radius;
+		return this.PI_CONST * this.radius * this.radius;
 	}
 
 	set circumference(value) {
-		Circumference.#validateNumber(value, 'Circumference');
+		Circle.#validateNumber(value, 'Circumference');
 
 		if (value < 0) {
 			throw new RangeError('Circumference cannot be negative');
 		}
-		this.radius = value / 2 / this.PI;
+		this.radius = value / 2 / this.PI_CONST;
 	}
 	get circumference() {
-		return 2 * this.PI * this.radius;
+		return 2 * this.PI_CONST * this.radius;
 	}
 
-	set x(value) {
-		Circumference.#validateNumber(value, 'X');
+	set centerX(value) {
+		Circle.#validateNumber(value, 'X');
 
-		this.#x = value;
+		this.#centerX = value;
 	}
-	get x() {
-		return this.#x;
+	get centerX() {
+		return this.#centerX;
 	}
 
-	set y(value) {
-		Circumference.#validateNumber(value, 'Y');
+	set centerY(value) {
+		Circle.#validateNumber(value, 'Y');
 
-		this.#y = value;
+		this.#centerY = value;
 	}
-	get y() {
-		return this.#y;
+	get centerY() {
+		return this.#centerY;
 	}
 
 	/**
-	 * Calcula a relação de um ponto P(X, Y) em relação ao centro da circunferência.
-	 * @param {number} a - Coordenada X do ponto.
-	 * @param {number} b - Coordenada Y do ponto.
-	 * @returns {number} - 0 se o ponto pertence à circunferência, -1 se é interno
-	 * a ela, 1 se externo.
+	 * Calculate the relationship of a point P(X, Y) to the center of the circle.
+	 * @param {number} a - X-coordinate of the point.
+	 * @param {number} b - Y-coordinate of the point.
+	 * @returns {number} - 0 if the point belongs to the circle, -1 if it is inside
+	 * it, 1 if it is outside.
 	 */
-	compareToPoint(pX, pY) {
-		Circumference.#validateNumber(pX, 'pX');
-		Circumference.#validateNumber(pY, 'pY');
+	comparePointToCircle(pX, pY) {
+		Circle.#validateNumber(pX, 'pX');
+		Circle.#validateNumber(pY, 'pY');
 
-		const distanceFromCircumferenceCenter =
-			Math.sqrt(Math.pow(pX - this.x, 2) + Math.pow(pY - this.y, 2));
+		const distanceFromCircleCenter =
+			Math.sqrt(Math.pow(pX - this.centerX, 2) + Math.pow(pY - this.centerY, 2));
 
 		switch (true) {
-			case distanceFromCircumferenceCenter < this.radius:
+			case distanceFromCircleCenter < this.radius:
 				return -1;
 			
-			case distanceFromCircumferenceCenter > this.radius:
+			case distanceFromCircleCenter > this.radius:
 				return 1;
 			
 			default:
